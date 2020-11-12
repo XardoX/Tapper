@@ -46,29 +46,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "e5fd895a-127c-491f-9c78-ac228de2351c",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Tap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "426da772-2c62-4ec5-bb1f-a283cf2002eb",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Tap",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Keyboard",
+                    "name": "Arrows",
                     "id": "ffcdb934-9141-4a44-b495-bca5b0b161eb",
                     "path": "2DVector",
                     "interactions": "",
@@ -123,7 +101,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Controller",
+                    "name": "DPad",
                     "id": "6ccb1931-55e9-4068-81a4-812322813966",
                     "path": "2DVector",
                     "interactions": "",
@@ -176,116 +154,6 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "Keyboard",
-                    "id": "63001d58-1c1d-454f-9f3c-65cdffb1f0c6",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "6a147e1c-b809-4d12-a19d-249dc1502d89",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "39329b11-d6b6-4f54-ae1b-bd1d2070fb3d",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "362ad647-a96d-419a-85e4-2d2ae7ca2755",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "26d07945-f083-4ae5-943b-cf31e43096e1",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Controller",
-                    "id": "5c01cb6e-bfd1-4dcd-826e-0b255be30934",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "78b7e0f4-9ede-4f69-825d-1b20e7fc8da9",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "aa189fe5-848b-44f4-9c81-dcc522e54bb3",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "151723b3-6159-496b-8e1c-2f67089b20bd",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "7bd404f7-6890-4c82-ae9e-55cf96e5174d",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Alternative",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }
@@ -294,11 +162,6 @@
         {
             "name": "Default",
             "bindingGroup": "Default",
-            "devices": []
-        },
-        {
-            "name": "Alternative",
-            "bindingGroup": "Alternative",
             "devices": []
         }
     ]
