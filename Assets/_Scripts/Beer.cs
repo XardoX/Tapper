@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Beer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float _beerSpeed;
+    private Rigidbody2D rb;
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    
+    private void OnEnable() 
+    {
+        
+    }
+    private void OnDisable() 
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ThrowBeer(Vector2 direction)
     {
-        
+        rb.velocity = direction * _beerSpeed;
     }
 }
