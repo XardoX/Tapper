@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 {
     public static Controls controls;
     [SerializeField] private GameObject _beerPrefab;
+    [SerializeField] private Transform _beerSpawn;
     [SerializeField] private float _speed = 10;
     [SerializeField] private Vector2 _bounds;
 
@@ -70,12 +71,12 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if(context.started)
         {
-           _holdBeer = ObjectPooler.Instance.GetPooledObject().GetComponent<Beer>();
-           _holdBeer.transform.position = this.transform.position;
+           _holdBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
+           _holdBeer.transform.position = _beerSpawn.position;
            _holdBeer.gameObject.SetActive(true);
         }
 
-        if(context.performed)
+        if(context.performed && _holdBeer != null)
         {
             _holdBeer.ThrowBeer(Vector2.left);
         }
@@ -85,11 +86,11 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         Vector3 position = transform.position ;
         float translation = controls.Player.Move.ReadValue<Vector2>().x * _speed * Time.deltaTime;
-        if(transform.position.x + translation < -5 )
+        if(transform.position.x + translation < _bounds.x )
         { 
             position.x = _bounds.x;
         }
-        else if( transform.position.x + translation > 5 )
+        else if( transform.position.x + translation > _bounds.y )
         {
             position.x = _bounds.y ;
         }
@@ -110,6 +111,11 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         } else if(currentBar >= _barrels.Length)
         {
             currentBar = 0;
+        }
+        if(_holdBeer != null)
+        {
+            _holdBeer.gameObject.SetActive(false);
+            _holdBeer = null;
         }
         transform.position = new Vector3(_bounds.y, _barrels[currentBar].transform.position.y, transform.position.z);
     }

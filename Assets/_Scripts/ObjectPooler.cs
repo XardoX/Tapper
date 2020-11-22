@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class ObjectPooler : MonoBehaviour 
 {
 	public static ObjectPooler Instance;
-
-	public List<GameObject> pooledObjects;
-	public GameObject objectToPool, objectsParent;
-	public int amountToPool;
+	public ObjectsToPool[] objectsToPool;
+	
 
 	void Awake ()
 	{
@@ -17,26 +16,37 @@ public class ObjectPooler : MonoBehaviour
 
 	void Start ()
 	{
-		pooledObjects = new List<GameObject> ();
-		for (int i = 0; i < amountToPool; i++) 
+		foreach(ObjectsToPool o in objectsToPool)
 		{
-			GameObject obj = (GameObject)Instantiate (objectToPool);
-			obj.SetActive (false);
-			pooledObjects.Add (obj);
-			obj.transform.parent = objectsParent.transform;
-            obj.transform.position = objectsParent.transform.position;
+			o.pooledObjects = new List<GameObject> ();
+			for (int i = 0; i < o.amountToPool; i++) 
+			{
+				GameObject obj = (GameObject)Instantiate (o.objectToPool);
+				obj.SetActive (false);
+				o.pooledObjects.Add (obj);
+				obj.transform.parent = o.objectsParent.transform;
+				obj.transform.position = o.objectsParent.transform.position;
+			}
         }
 	}
 
-	public GameObject GetPooledObject()
+	public GameObject GetPooledObject(int objectID)
 	{
-		for (int i = 0; i < pooledObjects.Count; i++) 
+		for (int i = 0; i < objectsToPool[objectID].pooledObjects.Count; i++) 
 		{
-			if (!pooledObjects[i].activeInHierarchy) 
+			if (!objectsToPool[objectID].pooledObjects[i].activeInHierarchy) 
 			{
-				return pooledObjects [i];
+				return objectsToPool[objectID].pooledObjects [i];
 			}
 		}
 		return null;
 	}
+}
+[System.Serializable]
+public class ObjectsToPool
+{
+	public GameObject objectToPool, objectsParent;
+	public int amountToPool;
+	[ReadOnly]
+	public List<GameObject> pooledObjects;
 }
