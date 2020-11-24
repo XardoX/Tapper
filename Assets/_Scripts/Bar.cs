@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : MonoBehaviour
+public class Bar : MonoBehaviour
 {
+    public Transform customerSpawnPoint;
     // Start is called before the first frame update
     void Start()
     {
