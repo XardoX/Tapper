@@ -11,11 +11,11 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     [SerializeField] private Transform _beerSpawn;
     [SerializeField] private float _speed = 10;
     [SerializeField] private Vector2 _bounds;
-
-    [SerializeField] private GameObject[] _barrels = new GameObject[4];
+    [SerializeField] private GameObject _bars;
     [SerializeField][ReadOnly] private int currentBar = 0;
+    private Transform[] _barrels;
     private Rigidbody2D _rb;
-    private Beer _holdBeer;
+    private Beer _heldBeer;
 
     private void Awake() 
     {
@@ -29,6 +29,14 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             controls.Player.SetCallbacks(this);
         }
         controls.Player.Enable();
+        _barrels = new Transform[_bars.transform.childCount];
+        for(int i = 0; i < _barrels.Length; i++)
+        {
+            Transform _child = _bars.transform.GetChild(i);
+            Debug.Log(_child);
+            Debug.Log(_child.gameObject.GetComponent<Bar>().playerPoint.gameObject.name);
+            _barrels.SetValue(_child.gameObject.GetComponent<Bar>().playerPoint, i);
+        }
     }
 
     private void OnDisable()
@@ -71,14 +79,15 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if(context.started)
         {
-           _holdBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
-           _holdBeer.transform.position = _beerSpawn.position;
-           _holdBeer.gameObject.SetActive(true);
+           _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
+           _heldBeer.transform.position = _beerSpawn.position;
+           _heldBeer.gameObject.SetActive(true);
         }
 
-        if(context.performed && _holdBeer != null)
+        if(context.performed && _heldBeer != null)
         {
-            _holdBeer.ThrowBeer(Vector2.left);
+            _heldBeer.ThrowBeer(Vector2.left);
+            _heldBeer = null;
         }
     }
 
@@ -112,11 +121,24 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         {
             currentBar = 0;
         }
-        if(_holdBeer != null)
+        if(_heldBeer != null)
         {
-            _holdBeer.gameObject.SetActive(false);
-            _holdBeer = null;
+            _heldBeer.gameObject.SetActive(false);
+            _heldBeer = null;
         }
-        transform.position = new Vector3(_bounds.y, _barrels[currentBar].transform.position.y, transform.position.z);
+        transform.position = new Vector3(_bounds.y, _barrels[currentBar].position.y, transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(other.CompareTag("Beer"))
+        {
+            Beer _beer = other.GetComponent<Beer>();
+            if(!_beer.isFull)
+            {
+                //punkty są dodawane tu
+                other.gameObject.SetActive(false);
+            }
+        }
     }
 }

@@ -44,4 +44,9 @@ public class Beer : MonoBehaviour
             _renderer.sprite = _beerEmpty;
         }
     }
+
+    public void StopBeer()
+    {
+        _rb.velocity = Vector3.zero;
+    }
 }
