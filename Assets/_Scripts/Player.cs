@@ -7,11 +7,10 @@ using NaughtyAttributes;
 public class Player : MonoBehaviour, Controls.IPlayerActions
 {
     public static Controls controls;
-    [SerializeField] private GameObject _beerPrefab;
-    [SerializeField] private Transform _beerSpawn;
+    [SerializeField] private Transform _beerSpawn = null;
     [SerializeField] private float _speed = 10;
-    [SerializeField] private Vector2 _bounds;
-    [SerializeField] private GameObject _bars;
+    [SerializeField] private Vector2 _bounds = Vector2.zero;
+    [SerializeField] private GameObject _bars = null;
     [SerializeField][ReadOnly] private int currentBar = 0;
     private Transform[] _barrels;
     private Rigidbody2D _rb;
@@ -29,13 +28,16 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             controls.Player.SetCallbacks(this);
         }
         controls.Player.Enable();
-        _barrels = new Transform[_bars.transform.childCount];
+        
+    }
+    private void Start() 
+    {
+        _barrels = new Transform[GameManager.Instance.bars.Count];
         for(int i = 0; i < _barrels.Length; i++)
         {
-            Transform _child = _bars.transform.GetChild(i);
-            Debug.Log(_child);
-            Debug.Log(_child.gameObject.GetComponent<Bar>().playerPoint.gameObject.name);
-            _barrels.SetValue(_child.gameObject.GetComponent<Bar>().playerPoint, i);
+            //Transform _child = _bars.transform.GetChild(i);
+            _barrels.SetValue(GameManager.Instance.bars[i].playerPoint, i);
+            //_barrels.SetValue(_child.gameObject.GetComponent<Bar>().playerPoint, i);
         }
     }
 
@@ -93,13 +95,13 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     private void Run()
     {
-        Vector3 position = transform.position ;
-        float translation = controls.Player.Move.ReadValue<Vector2>().x * _speed * Time.deltaTime;
+        Vector3 position = transform.position;
+        float translation = Mathf.Round(controls.Player.Move.ReadValue<Vector2>().x) * _speed * Time.deltaTime;
         if(transform.position.x + translation < _bounds.x )
         { 
             position.x = _bounds.x;
         }
-        else if( transform.position.x + translation > _bounds.y )
+        else if(transform.position.x + translation > _bounds.y )
         {
             position.x = _bounds.y ;
         }

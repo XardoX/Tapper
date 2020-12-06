@@ -1,23 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using NaughtyAttributes;
 
 public class Customer : MonoBehaviour
 {
-    public int beersToDrink = 1;
-    [SerializeField] private float _speed = 10f;
-    [SerializeField] private float _waitTime = 0.5f;
-    [SerializeField] private float _moveDistance = 1f;
-
+    public int customerIndex = 0;
+    public bool overrideSettings;
+    [EnableIf("overrideSettings")]
+    public CustomerSettings customerSettings;
+    [Space]
+    [SerializeField][ReadOnly][Label("Beers left to drink")]
+    private int _beersToDrink = 1;
     [HideInInspector] public bool _moving = true;
     private Animator _anim;
     private Beer _beerCurrent = null;
+    private GameManager gameManager;
     private float _time;
     private float _nextXPosition;
 
 
+    private void Awake() 
+    {
+        
+    }
     void Start()
     {
+        gameManager = GameManager.Instance;
+        if(customerIndex > gameManager.settings.customerTypes.Length)
+        {
+            customerIndex = 0;
+            Debug.Log("CustomerIndexOutOfRAnge");
+        }
+        if(overrideSettings == false)
+        {
+            customerSettings = gameManager.settings.customerTypes[customerIndex];
+        } else 
+        {
+            UpdateProperties();
+        }
         _moving = true;
         _anim = GetComponent<Animator>();
         _time = Time.time;
@@ -27,28 +46,28 @@ public class Customer : MonoBehaviour
     {
         if(_moving)
         {
-            if (beersToDrink > 0)
+            if (_beersToDrink > 0)
             {
                 if (transform.position.x <= _nextXPosition)
                 {
-                    transform.Translate(new Vector3(_speed*Time.deltaTime, 0f, 0f));
-                }else if(_time < _waitTime)
+                    transform.Translate(new Vector3(customerSettings.waitDuration*Time.deltaTime, 0f, 0f));
+                }else if(_time < customerSettings.waitDuration)
                 {
                     _time += Time.deltaTime;
                 } else 
                 {
                     _time = 0f;
-                    _nextXPosition += _moveDistance;
+                    _nextXPosition += customerSettings.moveDistance;
                 }
             }else
             {
-                transform.Translate(new Vector3(-_speed*Time.deltaTime, 0f, 0f));
+                transform.Translate(new Vector3(-customerSettings.waitDuration*Time.deltaTime, 0f, 0f));
             }
         }
     }
     private void OnEnable() 
     {
-        _nextXPosition = this.transform.position.x + _moveDistance;
+        _nextXPosition = this.transform.position.x + customerSettings.moveDistance;
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -69,7 +88,7 @@ public class Customer : MonoBehaviour
     public void EndDrinking()
     {
         _moving = true;
-        beersToDrink -= 1;
+        _beersToDrink -= 1;
         _beerCurrent.SetBeerStatus(false);
         _beerCurrent.ThrowBeer(Vector2.right);
         _beerCurrent = null;
@@ -79,5 +98,11 @@ public class Customer : MonoBehaviour
     {
         _moving = false;
         _anim.SetTrigger("Watch");
+    }
+
+    [Button]
+    private void UpdateProperties()
+    {
+        _beersToDrink = customerSettings.thirst;
     }
 }

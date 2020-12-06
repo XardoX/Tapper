@@ -6,7 +6,7 @@ using NaughtyAttributes;
 public class Beer : MonoBehaviour
 {
     [ReadOnly]public bool isFull = true;
-    [SerializeField] private Sprite _beerFull, _beerEmpty;
+    [SerializeField] private Sprite _beerFull = null, _beerEmpty = null;
     
     [SerializeField] private float _beerSpeed = 1;
     private Rigidbody2D _rb;
@@ -25,7 +25,8 @@ public class Beer : MonoBehaviour
     }
     private void OnDisable() 
     {
-        
+        isFull = true;
+        _renderer.sprite = _beerFull;
     }
 
     public void ThrowBeer(Vector2 direction)
