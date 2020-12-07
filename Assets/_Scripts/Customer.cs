@@ -13,7 +13,6 @@ public class Customer : MonoBehaviour
     [HideInInspector] public bool _moving = true;
     private Animator _anim;
     private Beer _beerCurrent = null;
-    private GameManager gameManager;
     private float _time;
     private float _nextXPosition;
 
@@ -24,15 +23,14 @@ public class Customer : MonoBehaviour
     }
     void Start()
     {
-        gameManager = GameManager.Instance;
-        if(customerIndex > gameManager.settings.customerTypes.Length)
+        if(customerIndex > GameManager.Instance.settings.customerTypes.Length)
         {
             customerIndex = 0;
             Debug.Log("CustomerIndexOutOfRAnge");
         }
         if(overrideSettings == false)
         {
-            customerSettings = gameManager.settings.customerTypes[customerIndex];
+            customerSettings = GameManager.Instance.settings.customerTypes[customerIndex];
         } else 
         {
             UpdateProperties();
@@ -50,7 +48,7 @@ public class Customer : MonoBehaviour
             {
                 if (transform.position.x <= _nextXPosition)
                 {
-                    transform.Translate(new Vector3(customerSettings.waitDuration*Time.deltaTime, 0f, 0f));
+                    transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
                 }else if(_time < customerSettings.waitDuration)
                 {
                     _time += Time.deltaTime;
@@ -61,13 +59,17 @@ public class Customer : MonoBehaviour
                 }
             }else
             {
-                transform.Translate(new Vector3(-customerSettings.waitDuration*Time.deltaTime, 0f, 0f));
+                transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
             }
         }
     }
     private void OnEnable() 
     {
         _nextXPosition = this.transform.position.x + customerSettings.moveDistance;
+    }
+    private void OnDisable() 
+    {
+        GameManager.Instance.customers.Remove(this);
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -81,17 +83,27 @@ public class Customer : MonoBehaviour
                 _moving = false;
                 _beer.StopBeer();
                 _anim.SetTrigger("Drinking");
+                //_anim.ResetTrigger("Drinking");
+                Debug.Log("trigger");
             }
         }
     }
 
     public void EndDrinking()
     {
-        _moving = true;
-        _beersToDrink -= 1;
-        _beerCurrent.SetBeerStatus(false);
-        _beerCurrent.ThrowBeer(Vector2.right);
-        _beerCurrent = null;
+        if(_beerCurrent != null)
+        {
+            Debug.Log(gameObject.name);
+            _anim.ResetTrigger("Drinking");
+            _beersToDrink -= 1;
+            if(_beersToDrink == 0)
+            {
+                _moving = true;
+            } else BackToEntrance();
+            _beerCurrent.SetBeerStatus(false);
+            _beerCurrent.ThrowBeer(Vector2.right);
+            _beerCurrent = null;
+        }
     }
 
     public void WatchLadies()
@@ -104,5 +116,14 @@ public class Customer : MonoBehaviour
     private void UpdateProperties()
     {
         _beersToDrink = customerSettings.thirst;
+    }
+
+    private void BackToEntrance()
+    {
+        while(transform.position.x <= -8f)
+        {
+            transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
+        }
+        _moving = true;
     }
 }

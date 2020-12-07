@@ -17,11 +17,61 @@ MonoBehaviour:
     thirst: 1
     drinkDuration: 1
     waitDuration: 0.5
-    moveSpeed: 10
+    moveSpeed: 1
     moveDistance: 1
   - name: Medium
     thirst: 2
     drinkDuration: 1
     waitDuration: 0.5
-    moveSpeed: 10
+    moveSpeed: 2
     moveDistance: 1
+  - name: Hard
+    thirst: 2
+    drinkDuration: 0.5
+    waitDuration: 0.5
+    moveSpeed: 3
+    moveDistance: 1
+  levels:
+  - name: Cowboy Bar
+    timeBetweenWave: 10
+    wave:
+    - name: First Wave
+      loopWave: 1
+      numberOfCustomers: 12
+      minBarChance: 30
+      maxBarChance: 70
+      chanceIncrease: 5
+      spawnLimit: 4
+      spawnDuration: 10
+      breakDuration: 3
+      customersTypes:
+      - name: Easy Customer
+        chanceForSpawn: 50
+        overridePrefab: 0
+        customerSettings:
+          name: 
+          thirst: 1
+          drinkDuration: 0
+          waitDuration: 0
+          moveSpeed: 0
+          moveDistance: 0
+      - name: Medium Customer
+        chanceForSpawn: 20
+        overridePrefab: 0
+        customerSettings:
+          name: 
+          thirst: 1
+          drinkDuration: 0
+          waitDuration: 0
+          moveSpeed: 0
+          moveDistance: 0
+      - name: Hard Customer
+        chanceForSpawn: 10
+        overridePrefab: 0
+        customerSettings:
+          name: 
+          thirst: 1
+          drinkDuration: 0
+          waitDuration: 0
+          moveSpeed: 0
+          moveDistance: 0

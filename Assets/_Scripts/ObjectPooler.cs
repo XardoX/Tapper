@@ -18,35 +18,57 @@ public class ObjectPooler : MonoBehaviour
 	{
 		foreach(ObjectsToPool o in objectsToPool)
 		{
-			o.pooledObjects = new List<GameObject> ();
-			for (int i = 0; i < o.amountToPool; i++) 
+			for(int j = 0; j < o.listOfObjects.Length; j++)
 			{
-				GameObject obj = (GameObject)Instantiate (o.objectToPool);
-				obj.SetActive (false);
-				o.pooledObjects.Add (obj);
-				obj.transform.parent = o.objectsParent.transform;
-				obj.transform.position = o.objectsParent.transform.position;
+			 	o.listOfObjects[j].pooledObjects = new List<GameObject> ();
+				for (int i = 0; i < o.listOfObjects[j].amountToPool; i++) 
+				{
+					GameObject obj = (GameObject)Instantiate (o.listOfObjects[j].prefab);
+					obj.SetActive (false);
+					o.listOfObjects[j].pooledObjects.Add (obj);
+					obj.transform.parent = o.objectsParent.transform;
+					obj.transform.position = o.objectsParent.transform.position;
 			}
-        }
-	}
-
-	public GameObject GetPooledObject(int objectID)
-	{
-		for (int i = 0; i < objectsToPool[objectID].pooledObjects.Count; i++) 
-		{
-			if (!objectsToPool[objectID].pooledObjects[i].activeInHierarchy) 
-			{
-				return objectsToPool[objectID].pooledObjects [i];
 			}
 		}
+        
+	}
+	public GameObject GetPooledObject(int objectID)
+	{
+		return GetPooledObject(objectID, 0);
+	}
+
+	public GameObject GetPooledObject(int objectID, int localID)
+	{
+		Debug.Log(objectID + " "+ localID);
+		Debug.Log(objectsToPool[objectID].listOfObjects[localID].pooledObjects.Count);
+		for (int i = 0; i < objectsToPool[objectID].listOfObjects[localID].pooledObjects.Count; i++) 
+		{
+			Debug.Log("a tu");
+			if (!objectsToPool[objectID].listOfObjects[localID].pooledObjects[i].activeInHierarchy) 
+			{
+				return objectsToPool[objectID].listOfObjects[localID].pooledObjects[i];
+			}
+		}
+		Debug.Log("Object pooler returned null");
 		return null;
 	}
 }
 [System.Serializable]
 public class ObjectsToPool
 {
-	public GameObject objectToPool, objectsParent;
+	public ListOfObjects[] listOfObjects;
+	[Required][AllowNesting]
+	public GameObject objectsParent;
+}
+[System.Serializable]
+public class ListOfObjects
+{
+	public string name;
+	public GameObject prefab;
+	[MinValue(0)] [AllowNesting]
 	public int amountToPool;
+	[MinValue(0)] [AllowNesting]
 	[ReadOnly]
 	public List<GameObject> pooledObjects;
 }

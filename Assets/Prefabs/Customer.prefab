@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8192c590fb896e8478742bc3423292c3, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 1.6, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &905129135968596692
@@ -163,18 +163,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a566d5c0c91f27d43895ad772e7f9187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customerType:
-    prefab: {fileID: 0}
+  customerIndex: 0
+  overrideSettings: 0
+  customerSettings:
     name: 
     thirst: 1
-    custom: 1
-    unlock: 0
     drinkDuration: 0
     waitDuration: 0.5
     moveSpeed: 10
-    moveDistance: 10
-  beersToDrink: 2
-  _speed: 2
-  _waitTime: 1
-  _moveDistance: 1
+    moveDistance: 1
+  _beersToDrink: 1
   _moving: 0

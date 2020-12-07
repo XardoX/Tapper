@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     [SerializeField] private Transform _beerSpawn = null;
     [SerializeField] private float _speed = 10;
     [SerializeField] private Vector2 _bounds = Vector2.zero;
-    [SerializeField] private GameObject _bars = null;
+    //[SerializeField] private GameObject _bars = null;
     [SerializeField][ReadOnly] private int currentBar = 0;
     private Transform[] _barrels;
     private Rigidbody2D _rb;

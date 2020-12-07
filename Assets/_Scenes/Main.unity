@@ -321,7 +321,6 @@ MonoBehaviour:
   _beerSpawn: {fileID: 57185658}
   _speed: 5
   _bounds: {x: -5, y: 4.5}
-  _bars: {fileID: 1569038131}
   currentBar: 0
 --- !u!212 &369099897
 SpriteRenderer:
@@ -824,8 +823,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 9902ae3e9cc79524b8d629db46435c42, type: 2}
-  _bars: []
-  _customers: []
+  barsParent: {fileID: 1569038131}
+  bars: []
+  customers: []
 --- !u!114 &2097578365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,16 +839,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectsToPool:
-  - objectToPool: {fileID: 4148232974412142382, guid: 6ad6c5af79e1a5b48bdb58683f7b949f,
-      type: 3}
+  - listOfObjects:
+    - name: Beers
+      prefab: {fileID: 4148232974412142382, guid: 6ad6c5af79e1a5b48bdb58683f7b949f,
+        type: 3}
+      amountToPool: 15
+      pooledObjects: []
     objectsParent: {fileID: 1084227611}
-    amountToPool: 10
-    pooledObjects: []
-  - objectToPool: {fileID: 3373421567161542793, guid: ade3bc66b3d44a54d84d74639efcdc59,
-      type: 3}
+  - listOfObjects:
+    - name: Easy Customer
+      prefab: {fileID: 3198900022240037076, guid: 4d7e79bf0f3602a41b8e0db9129673a0,
+        type: 3}
+      amountToPool: 10
+      pooledObjects: []
+    - name: Medium Customer
+      prefab: {fileID: 5050313989576423649, guid: 064f3997b6eb6cf4ebbfedc6cc02940d,
+        type: 3}
+      amountToPool: 10
+      pooledObjects: []
+    - name: Hard Customer
+      prefab: {fileID: 4042289193469618321, guid: 36d5161be0aa32f47ac1973801b555ad,
+        type: 3}
+      amountToPool: 10
+      pooledObjects: []
     objectsParent: {fileID: 200810248}
-    amountToPool: 15
-    pooledObjects: []
 --- !u!4 &2097578366
 Transform:
   m_ObjectHideFlags: 0
@@ -927,7 +941,7 @@ PrefabInstance:
     - target: {fileID: 3373421567161542793, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_Name
-      value: Customer
+      value: Test Customer
       objectReference: {fileID: 0}
     - target: {fileID: 3373421567161542804, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
@@ -1007,7 +1021,7 @@ PrefabInstance:
     - target: {fileID: 3373421567161542806, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: overrideSettings
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3373421567161542806, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
@@ -1018,6 +1032,16 @@ PrefabInstance:
         type: 3}
       propertyPath: customerIndex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542806, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: customerSettings.moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542806, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: customerSettings.waitDuration
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ade3bc66b3d44a54d84d74639efcdc59, type: 3}
