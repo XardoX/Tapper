@@ -37,9 +37,13 @@ public class GameManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) 
     {
-         if(other.CompareTag("Customer"))
+        if(other.CompareTag("Customer"))
         {
             customers.Remove(other.GetComponent<Customer>());
+            other.gameObject.SetActive(false);
+        } 
+        else if(other.CompareTag("Beer")|| other.CompareTag("Empty Beer"))
+        {
             other.gameObject.SetActive(false);
         }
     }
@@ -48,60 +52,80 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Levels.Wave currentWave = settings.levels[levelID].wave[waveID];
+        int _number = 0;
         while(!_isLevelCleared)
         {
-            int _currentLimit = currentWave.spawnLimit;
-            float timeLimit = currentWave.spawnDuration + Time.time;
-            while(_currentLimit > 0 && Time.time <= timeLimit)
+            if(currentWave.loopWave) _number = 0;
+            while(_number < currentWave.numberOfCustomers)
             {
-                int currentSpawnChance = currentWave.minBarChance;
-                Bar _chosenBar = null;
-                bars = bars.OrderBy(i => Random.value).ToList();
-                foreach(Bar _bar in bars)
+                int _currentLimit = currentWave.spawnLimit;
+                float timeLimit = currentWave.spawnDuration + Time.time;
+                while(_currentLimit > 0 && Time.time <= timeLimit)
                 {
-                    if(currentSpawnChance >= Random.Range(0,100))
+                    #region randomly chosing bar
+                    int currentSpawnChance = currentWave.minBarChance;
+                    Bar _chosenBar = null;
+                    bars = bars.OrderBy(i => Random.value).ToList();
+                    foreach(Bar _bar in bars)
                     {
-                        _chosenBar = _bar;
-                        break;
-                    } else currentSpawnChance += currentWave.chanceIncrease;
-                }
-            
-                int customersChances = 0;
-                CustomerSettings _customerType = null;
-                foreach (Levels.Wave.CustomerTypes type in currentWave.customersTypes)
-                {
-                    customersChances += type.chanceForSpawn;
-                }
+                        if(currentSpawnChance >= Random.Range(0,100))
+                        {
+                            _chosenBar = _bar;
+                            break;
+                        } else currentSpawnChance += currentWave.chanceIncrease;
+                    }
+                    #endregion
 
-                int _results = Random.Range(0, customersChances);
-                int _localObjectID = 0;
-                for (int i = 0; i < currentWave.customersTypes.Length; i++)
-                {
-                    _results -= currentWave.customersTypes[i].chanceForSpawn;
-                    if(_results <=0) 
+                    #region Calculating customer type
+                    int customersChances = 0;
+                    CustomerSettings _customerType = null;
+                    foreach (Levels.Wave.CustomerTypes type in currentWave.customersTypes)
                     {
-                        _customerType = currentWave.customersTypes[i].customerSettings;
-                        _localObjectID = i;
-                        break;
+                        customersChances += type.chanceForSpawn;
                     }
+                    #endregion
+
+                    #region Calculating spawn chance
+                    int _results = Random.Range(0, customersChances);
+                    int _localObjectID = 0;
+                    for (int i = 0; i < currentWave.customersTypes.Length; i++)
+                    {
+                        _results -= currentWave.customersTypes[i].chanceForSpawn;
+                        if(_results <=0) 
+                        {
+                            _customerType = currentWave.customersTypes[i].customerSettings;
+                            _localObjectID = i;
+                            break;
+                        }
+                    }
+                    #endregion
+
+                    #region Spawning Customer
+                    if(_chosenBar != null && _customerType != null)
+                    {
+                        Customer _spawnedCustomer = ObjectPooler.Instance.GetPooledObject(1,_localObjectID).GetComponent<Customer>();
+                        if(currentWave.customersTypes[_localObjectID].overridePrefab)
+                        {
+                            _spawnedCustomer.customerSettings = _customerType;
+                        }
+                        _currentLimit--;
+                        _number++;
+                        customers.Add(_spawnedCustomer);
+                        _spawnedCustomer.currentBar = _chosenBar;
+                        _spawnedCustomer.UpdateProperties();
+                        _spawnedCustomer.transform.position = _chosenBar.customerSpawnPoint.position;
+                        _spawnedCustomer.gameObject.SetActive(true);
+                    } else Debug.Log(_chosenBar +" Bar < Wyjebało> Customer"+ _customerType);
+                    yield return new WaitForSeconds(1f);
+                    #endregion
+                } 
+                yield return new WaitForSeconds(currentWave.breakDuration);
+                if(customers.Count == 0) 
+                {
+                    _isLevelCleared = true;
+                    break;
                 }
-                if(_chosenBar != null && _customerType != null)
-                {
-                    Customer _spawnedCustomer = ObjectPooler.Instance.GetPooledObject(1,_localObjectID).GetComponent<Customer>();
-                    if(currentWave.customersTypes[_localObjectID].overridePrefab)
-                    {
-                        _spawnedCustomer.customerSettings = _customerType;
-                    }
-                    _currentLimit--;
-                    customers.Add(_spawnedCustomer);
-                    _spawnedCustomer.transform.position = _chosenBar.customerSpawnPoint.position;
-                    _spawnedCustomer.gameObject.SetActive(true);
-                } else Debug.Log(_chosenBar +" "+ _customerType);
-                yield return new WaitForSeconds(1f);
-            } 
-            yield return new WaitForSeconds(currentWave.breakDuration);
-            if(customers.Count == 0) _isLevelCleared = true;
-            break;
+            }
         }
         yield return null;
     }

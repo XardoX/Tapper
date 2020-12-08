@@ -10,9 +10,12 @@ public class Customer : MonoBehaviour
     [Space]
     [SerializeField][ReadOnly][Label("Beers left to drink")]
     private int _beersToDrink = 1;
+    [ReadOnly]
+    public Bar currentBar;
     [HideInInspector] public bool _moving = true;
     private Animator _anim;
     private Beer _beerCurrent = null;
+    private Transform _beerParent = null;
     private float _time;
     private float _nextXPosition;
 
@@ -31,8 +34,10 @@ public class Customer : MonoBehaviour
         if(overrideSettings == false)
         {
             customerSettings = GameManager.Instance.settings.customerTypes[customerIndex];
+            _beersToDrink = customerSettings.thirst;
         } else 
         {
+            Debug.Log("Update na starcie");
             UpdateProperties();
         }
         _moving = true;
@@ -51,7 +56,7 @@ public class Customer : MonoBehaviour
                     transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
                 }else if(_time < customerSettings.waitDuration)
                 {
-                    _time += Time.deltaTime;
+                    _time += Time.deltaTime; //waits
                 } else 
                 {
                     _time = 0f;
@@ -61,11 +66,22 @@ public class Customer : MonoBehaviour
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
             }
+        } else if (_beersToDrink > 1)
+        {
+            if(transform.position.x > _nextXPosition - customerSettings.moveDistance * 3f)
+            {
+                transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
+            } else 
+            {
+                _anim.SetTrigger("Drinking");
+                
+            }
         }
     }
     private void OnEnable() 
     {
         _nextXPosition = this.transform.position.x + customerSettings.moveDistance;
+        UpdateProperties();
     }
     private void OnDisable() 
     {
@@ -81,10 +97,17 @@ public class Customer : MonoBehaviour
             {
                 _beerCurrent = _beer;
                 _moving = false;
-                _beer.StopBeer();
-                _anim.SetTrigger("Drinking");
-                //_anim.ResetTrigger("Drinking");
-                Debug.Log("trigger");
+                _beerCurrent.StopBeer();
+                _beerParent = _beerCurrent.transform.parent;
+                _beerCurrent.transform.parent = this.transform;
+                if(_beersToDrink == 1)
+                {
+                    _anim.SetTrigger("Drinking");
+                } 
+                else if (_beersToDrink > 1)
+                {
+                    
+                }
             }
         }
     }
@@ -93,16 +116,15 @@ public class Customer : MonoBehaviour
     {
         if(_beerCurrent != null)
         {
-            Debug.Log(gameObject.name);
             _anim.ResetTrigger("Drinking");
             _beersToDrink -= 1;
-            if(_beersToDrink == 0)
-            {
-                _moving = true;
-            } else BackToEntrance();
+            _moving = true;
+            _beerCurrent.transform.parent = _beerParent;
             _beerCurrent.SetBeerStatus(false);
             _beerCurrent.ThrowBeer(Vector2.right);
             _beerCurrent = null;
+            _time = 0f;
+            _nextXPosition = transform.position.x;
         }
     }
 
@@ -113,14 +135,15 @@ public class Customer : MonoBehaviour
     }
 
     [Button]
-    private void UpdateProperties()
+    public void UpdateProperties()
     {
         _beersToDrink = customerSettings.thirst;
+        //Debug.Log(gameObject.name +" Properties updated " +customerSettings.thirst);
     }
 
     private void BackToEntrance()
     {
-        while(transform.position.x <= -8f)
+        while(transform.position.x >= currentBar.customerSpawnPoint.transform.position.x)
         {
             transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
         }

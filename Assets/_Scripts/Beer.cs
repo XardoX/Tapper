@@ -39,6 +39,7 @@ public class Beer : MonoBehaviour
         isFull = _isFull;
         if(isFull)
         {
+            this.gameObject.layer = LayerMask.NameToLayer("Beer");
             _renderer.sprite = _beerFull;
         }else 
         {
@@ -49,5 +50,6 @@ public class Beer : MonoBehaviour
     public void StopBeer()
     {
         _rb.velocity = Vector3.zero;
+        this.gameObject.layer = LayerMask.NameToLayer("Empty Beer");
     }
 }

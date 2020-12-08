@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Beer
   - Customer
+  - Empty Beer
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - 
   - Beer
-  - 
+  - Empty Beer
   - 
   - 
   - 

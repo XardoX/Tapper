@@ -23,13 +23,13 @@ MonoBehaviour:
     thirst: 2
     drinkDuration: 1
     waitDuration: 0.5
-    moveSpeed: 2
+    moveSpeed: 1
     moveDistance: 1
   - name: Hard
-    thirst: 2
-    drinkDuration: 0.5
+    thirst: 3
+    drinkDuration: 1
     waitDuration: 0.5
-    moveSpeed: 3
+    moveSpeed: 1
     moveDistance: 1
   levels:
   - name: Cowboy Bar

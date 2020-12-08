@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3373421567161542806}
   m_Layer: 0
   m_Name: Customer
-  m_TagString: Untagged
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,4 +173,5 @@ MonoBehaviour:
     moveSpeed: 10
     moveDistance: 1
   _beersToDrink: 1
+  currentBar: {fileID: 0}
   _moving: 0

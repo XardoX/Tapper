@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hard Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542793, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_TagString
+      value: Customer
+      objectReference: {fileID: 0}
     - target: {fileID: 3373421567161542804, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_LocalPosition.x

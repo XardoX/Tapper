@@ -16,6 +16,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Easy Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542793, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_TagString
+      value: Customer
+      objectReference: {fileID: 0}
     - target: {fileID: 3373421567161542804, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -85,7 +90,7 @@ PrefabInstance:
     - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ade3bc66b3d44a54d84d74639efcdc59, type: 3}
