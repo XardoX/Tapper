@@ -19,6 +19,8 @@ public class Customer : MonoBehaviour
     private float _time;
     private float _nextXPosition;
 
+    private bool _canCatch;
+
 
     private void Awake() 
     {
@@ -65,6 +67,8 @@ public class Customer : MonoBehaviour
             }else
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
+                _canCatch = false;
+                gameObject.tag = "Drunk Customer";
             }
         } else if (_beersToDrink > 1)
         {
@@ -81,6 +85,8 @@ public class Customer : MonoBehaviour
     private void OnEnable() 
     {
         _nextXPosition = this.transform.position.x + customerSettings.moveDistance;
+        gameObject.tag = "Customer";
+        _canCatch = true;
         UpdateProperties();
     }
     private void OnDisable() 
@@ -90,7 +96,7 @@ public class Customer : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) 
     {
         //if(other.CompareTag("GameController")) this.gameObject.SetActive(false);
-        if(other.CompareTag("Beer") && _beerCurrent == null)
+        if(other.CompareTag("Beer") && _beerCurrent == null && _canCatch)
         {
             Beer _beer = other.GetComponent<Beer>();
             if(_beer.isFull)
@@ -98,7 +104,7 @@ public class Customer : MonoBehaviour
                 _beerCurrent = _beer;
                 _moving = false;
                 _beerCurrent.StopBeer();
-                _beerParent = _beerCurrent.transform.parent;
+                _beerParent = ObjectPooler.Instance.objectsToPool[0].objectsParent.transform;
                 _beerCurrent.transform.parent = this.transform;
                 if(_beersToDrink == 1)
                 {
@@ -148,5 +154,10 @@ public class Customer : MonoBehaviour
             transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
         }
         _moving = true;
+    }
+
+    public void ThrowPlayer()
+    {
+        Debug.Log("Player");
     }
 }

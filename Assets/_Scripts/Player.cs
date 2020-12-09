@@ -83,6 +83,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         {
            _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
            _heldBeer.transform.position = _beerSpawn.position;
+           _heldBeer.SetBeerStatus(true);
            _heldBeer.gameObject.SetActive(true);
         }
 
@@ -133,12 +134,12 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.CompareTag("Beer"))
+        if(other.CompareTag("Empty Beer"))
         {
             Beer _beer = other.GetComponent<Beer>();
             if(!_beer.isFull)
             {
-                //punkty są dodawane tu
+                GameManager.Instance.AddPoints(100);
                 other.gameObject.SetActive(false);
             }
         }

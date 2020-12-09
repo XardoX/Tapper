@@ -52,6 +52,19 @@ public class ObjectPooler : MonoBehaviour
 		Debug.Log("Object pooler returned null");
 		return null;
 	}
+
+	public void ResetObjects(int objectID)
+	{
+		foreach(ListOfObjects list in objectsToPool[objectID].listOfObjects)
+		{
+			foreach(GameObject pooledObject in list.pooledObjects)
+			{
+				pooledObject.transform.parent = objectsToPool[objectID].objectsParent.transform;
+				pooledObject.transform.localPosition = Vector3.zero;
+				pooledObject.SetActive(false);
+			}
+		}
+	}
 }
 [System.Serializable]
 public class ObjectsToPool

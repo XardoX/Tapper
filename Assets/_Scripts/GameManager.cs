@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     
     public static GameManager Instance;
 
+    [ReadOnly] public int playerLives = 3;
+    [SerializeField] [ReadOnly] private int _score;
+    [ReadOnly] public bool isGameActive;
     private bool _isLevelCleared;
     private void Awake() 
     {
@@ -37,19 +40,22 @@ public class GameManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) 
     {
-        if(other.CompareTag("Customer"))
-        {
-            customers.Remove(other.GetComponent<Customer>());
-            other.gameObject.SetActive(false);
-        } 
-        else if(other.CompareTag("Beer")|| other.CompareTag("Empty Beer"))
-        {
-            other.gameObject.SetActive(false);
+        if(isGameActive){
+            if(other.CompareTag("Customer") || other.CompareTag("Drunk Customer"))
+            {
+                customers.Remove(other.GetComponent<Customer>());
+                other.gameObject.SetActive(false);
+            } 
+            else if(other.CompareTag("Beer")|| other.CompareTag("Empty Beer"))
+            {
+                other.gameObject.SetActive(false);
+            }
         }
     }
 
     public IEnumerator CustomersWave(int levelID, int waveID)
     {
+        isGameActive = true;
         yield return new WaitForSeconds(0.5f);
         Levels.Wave currentWave = settings.levels[levelID].wave[waveID];
         int _number = 0;
@@ -130,4 +136,35 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
     
+    void ResetLevel()
+    {
+        StopAllCoroutines();
+        isGameActive = false;
+        ObjectPooler.Instance.ResetObjects(0);
+        ObjectPooler.Instance.ResetObjects(1);
+        customers.Clear();
+        if(playerLives <=0)
+        {
+            //PlayerLost();
+        } else
+        {
+            //UpdateUI();
+            //ResetPlayer();
+            //StartCoroutine(CustomersWave(_currentLevel,_currentWave));
+        }
+    }
+
+    public void TakePlayerHearth()
+    {
+        playerLives--;
+        UIController.Instance.UpdateHearts(playerLives);
+        ResetLevel();
+    }
+
+    public void AddPoints(int value)
+    {
+        _score += value;
+        UIController.Instance.UpdateScore(_score);
+    }
+
 }

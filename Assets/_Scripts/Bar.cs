@@ -6,14 +6,22 @@ public class Bar : MonoBehaviour
 {
     public Transform customerSpawnPoint;
     public Transform playerPoint;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D other) 
     {
-        
+        if(GameManager.Instance.isGameActive)
+        if(other.CompareTag("Customer"))
+        {
+            GameManager.Instance.TakePlayerHearth();
+            other.GetComponent<Customer>().ThrowPlayer();
+        }else if(other.CompareTag("Beer"))
+        {
+            GameManager.Instance.TakePlayerHearth();
+            other.GetComponent<Beer>().BreakMug(true);
+        }else if(other.CompareTag("Empty Beer"))
+        {
+            GameManager.Instance.TakePlayerHearth();
+            other.GetComponent<Beer>().BreakMug(false);
+        }
     }
 }
