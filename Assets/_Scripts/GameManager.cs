@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [ReadOnly] public int playerLives = 3;
     [SerializeField] [ReadOnly] private int _score;
+    [SerializeField] [ReadOnly] private int _currentLevel, _currentWave;
     [ReadOnly] public bool isGameActive;
     private bool _isLevelCleared;
     private void Awake() 
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator CustomersWave(int levelID, int waveID)
     {
+        _currentLevel = levelID;
+        _currentWave = waveID;
         isGameActive = true;
         yield return new WaitForSeconds(0.5f);
         Levels.Wave currentWave = settings.levels[levelID].wave[waveID];
@@ -150,7 +153,7 @@ public class GameManager : MonoBehaviour
         {
             //UpdateUI();
             //ResetPlayer();
-            //StartCoroutine(CustomersWave(_currentLevel,_currentWave));
+            StartCoroutine(CustomersWave(_currentLevel,_currentWave));
         }
     }
 

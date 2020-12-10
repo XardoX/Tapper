@@ -72,13 +72,13 @@ public class Customer : MonoBehaviour
             }
         } else if (_beersToDrink > 1)
         {
+            gameObject.tag = "Drunk Customer";
             if(transform.position.x > _nextXPosition - customerSettings.moveDistance * 3f)
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
             } else 
             {
                 _anim.SetTrigger("Drinking");
-                
             }
         }
     }
@@ -124,6 +124,7 @@ public class Customer : MonoBehaviour
         {
             _anim.ResetTrigger("Drinking");
             _beersToDrink -= 1;
+            gameObject.tag = "Customer";
             _moving = true;
             _beerCurrent.transform.parent = _beerParent;
             _beerCurrent.SetBeerStatus(false);

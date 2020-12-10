@@ -608,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e0384a86af7de74bab053358291df2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreText: {fileID: 1709416949}
   _heartsParent: {fileID: 2061512871}
   _Hearts: []
 --- !u!114 &537778481
@@ -1149,7 +1150,7 @@ GameObject:
   - component: {fileID: 1709416950}
   - component: {fileID: 1709416949}
   m_Layer: 5
-  m_Name: SCore
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1420,6 +1421,7 @@ MonoBehaviour:
   bars: []
   customers: []
   playerLives: 3
+  _score: 0
   isGameActive: 0
 --- !u!114 &2097578365
 MonoBehaviour:

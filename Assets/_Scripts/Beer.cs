@@ -6,6 +6,7 @@ using NaughtyAttributes;
 public class Beer : MonoBehaviour
 {
     [ReadOnly]public bool isFull = true;
+    [ReadOnly] public bool catched;
     [SerializeField] private Sprite _beerFull = null, _beerEmpty = null;
     
     [SerializeField] private float _beerSpeed = 1;
@@ -21,7 +22,7 @@ public class Beer : MonoBehaviour
     
     private void OnEnable() 
     {
-        
+        catched = false;
     }
     private void OnDisable() 
     {
