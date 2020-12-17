@@ -87,6 +87,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542807, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y

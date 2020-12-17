@@ -53,27 +53,29 @@ public class Customer : MonoBehaviour
         {
             if (_beersToDrink > 0)
             {
-                if (transform.position.x <= _nextXPosition)
+                if (transform.position.x <= _nextXPosition)//moving towards player
                 {
-                    transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
-                }else if(_time < customerSettings.waitDuration)
+                    transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f)); 
+                }else if(_time < customerSettings.waitDuration)//waits
                 {
-                    _time += Time.deltaTime; //waits
-                } else 
+                    _time += Time.deltaTime; 
+                } else //setting next position
                 {
                     _time = 0f;
-                    _nextXPosition += customerSettings.moveDistance;
+                    _nextXPosition += customerSettings.moveDistance; 
                 }
-            }else
+            }else //leaves bar
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
                 _canCatch = false;
                 gameObject.tag = "Drunk Customer";
             }
-        } else if (_beersToDrink > 1)
+        } else if (_beersToDrink > 1) // goes back a little bit and drinks
         {
             gameObject.tag = "Drunk Customer";
-            if(transform.position.x > _nextXPosition - customerSettings.moveDistance * 3f)
+            float _backingPos = _nextXPosition - customerSettings.moveDistance * 3f;
+            if(_backingPos < 7.5f) _backingPos = 7.5f;
+            if(transform.position.x > _backingPos)
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
             } else 
@@ -106,6 +108,7 @@ public class Customer : MonoBehaviour
                 _beerCurrent.StopBeer();
                 _beerParent = ObjectPooler.Instance.objectsToPool[0].objectsParent.transform;
                 _beerCurrent.transform.parent = this.transform;
+                gameObject.tag = "Drunk Customer";
                 if(_beersToDrink == 1)
                 {
                     _anim.SetTrigger("Drinking");
@@ -124,7 +127,7 @@ public class Customer : MonoBehaviour
         {
             _anim.ResetTrigger("Drinking");
             _beersToDrink -= 1;
-            gameObject.tag = "Customer";
+            if(_beersToDrink > 0) gameObject.tag = "Customer";
             _moving = true;
             _beerCurrent.transform.parent = _beerParent;
             _beerCurrent.SetBeerStatus(false);
