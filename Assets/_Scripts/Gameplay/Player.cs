@@ -9,12 +9,15 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     public static Controls controls;
     [SerializeField] private Transform _beerSpawn = null;
     [SerializeField] private float _speed = 10;
+    [SerializeField] private float _moveCoolDown = 0.1f;
     [SerializeField] private Vector2 _bounds = Vector2.zero;
     //[SerializeField] private GameObject _bars = null;
     [SerializeField][ReadOnly] private int currentBar = 0;
     private Transform[] _barrels;
     private Rigidbody2D _rb;
     private Beer _heldBeer;
+
+    private float _moveTime;
 
     private void Awake() 
     {
@@ -35,9 +38,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         _barrels = new Transform[GameManager.Instance.bars.Count];
         for(int i = 0; i < _barrels.Length; i++)
         {
-            //Transform _child = _bars.transform.GetChild(i);
             _barrels.SetValue(GameManager.Instance.bars[i].playerPoint, i);
-            //_barrels.SetValue(_child.gameObject.GetComponent<Bar>().playerPoint, i);
         }
     }
 
@@ -49,18 +50,12 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         Run();
     }
-    private void FixedUpdate() 
-    {
-        float moveH = controls.Player.Move.ReadValue<Vector2>().x;
-        Vector3 movement = new Vector3(moveH, 0f, 0f);
-
-        //_rb.MovePosition(transform.position + (movement.normalized * _speed * Time.deltaTime));
-    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if(context.performed && Time.time > _moveTime + _moveCoolDown)
         {
+            _moveTime = Time.time;
             Vector2 moveInput = (context.ReadValue<Vector2>());
             
             if(moveInput == Vector2.up)
@@ -85,6 +80,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
            _heldBeer.transform.position = _beerSpawn.position;
            _heldBeer.gameObject.SetActive(true);
            _heldBeer.SetBeerStatus(true);
+           _heldBeer.catched = true;
         }
 
         if(context.performed && _heldBeer != null)
@@ -134,7 +130,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.CompareTag("Empty Beer"))
+        if(other.CompareTag(Tags.emptyBeer))
         {
             Beer _beer = other.GetComponent<Beer>();
             if(!_beer.isFull)
@@ -143,6 +139,10 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
                 GameManager.Instance.AddPoints(100);
                 other.gameObject.SetActive(false);
             }
+        }
+        else if(other.CompareTag(Tags.tip))
+        {
+
         }
     }
 }

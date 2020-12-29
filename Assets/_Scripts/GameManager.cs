@@ -41,13 +41,14 @@ public class GameManager : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other) 
     {
-        if(isGameActive){
-            if(other.CompareTag("Customer") || other.CompareTag("Drunk Customer"))
+        if(isGameActive)
+        {
+            if(other.CompareTag(Tags.customer) || other.CompareTag(Tags.drunkCustomer))
             {
                 customers.Remove(other.GetComponent<Customer>());
                 other.gameObject.SetActive(false);
             } 
-            else if(other.CompareTag("Beer")|| other.CompareTag("Empty Beer"))
+            else if(other.CompareTag(Tags.beer)|| other.CompareTag(Tags.emptyBeer))
             {
                 other.gameObject.SetActive(false);
             }
@@ -124,7 +125,11 @@ public class GameManager : MonoBehaviour
                         _spawnedCustomer.UpdateProperties();
                         _spawnedCustomer.transform.position = _chosenBar.customerSpawnPoint.position;
                         _spawnedCustomer.gameObject.SetActive(true);
-                    } else Debug.Log(_chosenBar +" Bar < Wyjebało> Customer"+ _customerType);
+                    } else 
+                    {
+                        if(_chosenBar == null) Debug.Log("_chosenbar null");
+                        if(_customerType == null) Debug.Log("_customerType null");
+                    }
                     yield return new WaitForSeconds(1f);
                     #endregion
                 } 

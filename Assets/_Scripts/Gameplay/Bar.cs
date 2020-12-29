@@ -11,21 +11,25 @@ public class Bar : MonoBehaviour
     {
         if(GameManager.Instance.isGameActive)
         {
-            if(other.CompareTag("Customer"))
+            if(other.CompareTag(Tags.customer))
             {
                 GameManager.Instance.TakePlayerHearth();
                 other.GetComponent<Customer>().ThrowPlayer();
-            }else if(other.CompareTag("Beer"))
-            {
-                GameManager.Instance.TakePlayerHearth();
-                other.GetComponent<Beer>().BreakMug(true);
-            }else if(other.CompareTag("Empty Beer"))
+            }else if(other.CompareTag(Tags.beer))
             {
                 Beer beer = other.GetComponent<Beer>();
                 if(beer.catched == false)
                 {
                     GameManager.Instance.TakePlayerHearth();
-                    other.GetComponent<Beer>().BreakMug(false);
+                    beer.BreakMug(false);
+                }
+            }else if(other.CompareTag(Tags.emptyBeer))
+            {
+                Beer beer = other.GetComponent<Beer>();
+                if(beer.catched == false)
+                {
+                    GameManager.Instance.TakePlayerHearth();
+                    beer.BreakMug(false);
                 }
             }
         }

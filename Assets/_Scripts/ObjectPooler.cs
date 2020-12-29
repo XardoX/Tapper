@@ -40,8 +40,6 @@ public class ObjectPooler : MonoBehaviour
 
 	public GameObject GetPooledObject(int objectID, int localID)
 	{
-		//Debug.Log(objectID + " "+ localID);
-		//Debug.Log(objectsToPool[objectID].listOfObjects[localID].pooledObjects.Count);
 		for (int i = 0; i < objectsToPool[objectID].listOfObjects[localID].pooledObjects.Count; i++) 
 		{
 			if (!objectsToPool[objectID].listOfObjects[localID].pooledObjects[i].activeInHierarchy) 

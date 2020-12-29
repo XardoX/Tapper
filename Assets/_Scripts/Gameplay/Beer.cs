@@ -10,6 +10,7 @@ public class Beer : MonoBehaviour
     [SerializeField] private Sprite _beerFull = null, _beerEmpty = null;
     
     [SerializeField] private float _beerSpeed = 1;
+    [SerializeField] private float _emptyBeerSpeed = 1;
     private Rigidbody2D _rb;
     private SpriteRenderer _renderer;
     void Awake()
@@ -17,8 +18,6 @@ public class Beer : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _renderer = GetComponent<SpriteRenderer>();
     }
-
-    // Update is called once per frame
     
     private void OnEnable() 
     {
@@ -32,7 +31,10 @@ public class Beer : MonoBehaviour
 
     public void ThrowBeer(Vector2 direction)
     {
-        _rb.velocity = direction * _beerSpeed;
+        if(isFull)
+        {
+            _rb.velocity = direction * _beerSpeed;
+        } else _rb.velocity = direction * _emptyBeerSpeed;
     }
 
     public void SetBeerStatus(bool _isFull)
@@ -40,8 +42,8 @@ public class Beer : MonoBehaviour
         isFull = _isFull;
         if(isFull)
         {
-            this.gameObject.layer = LayerMask.NameToLayer("Beer");
-            this.gameObject.tag = "Beer";
+            this.gameObject.layer = Layers.beer;
+            this.gameObject.tag = Tags.beer;
             _renderer.sprite = _beerFull;
         }else 
         {
@@ -52,12 +54,11 @@ public class Beer : MonoBehaviour
     public void StopBeer()
     {
         _rb.velocity = Vector3.zero;
-        this.gameObject.layer = LayerMask.NameToLayer("Empty Beer");
-        this.gameObject.tag = "Empty Beer";
+        this.gameObject.layer = Layers.emptyBeer;
+        this.gameObject.tag = Tags.emptyBeer;
     }
     public void BreakMug(bool isFool)
     {
-        Debug.Log("Mug");
         StopBeer();
     }
 }
