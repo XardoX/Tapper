@@ -8,6 +8,7 @@ TagManager:
   - Customer
   - Empty Beer
   - Drunk Customer
+  - Tip
   layers:
   - Default
   - TransparentFX
