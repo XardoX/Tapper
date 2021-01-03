@@ -125,6 +125,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             _heldBeer.gameObject.SetActive(false);
             _heldBeer = null;
         }
+        _bounds.y = _barrels[currentBar].position.x;
         transform.position = new Vector3(_bounds.y, _barrels[currentBar].position.y, transform.position.z);
     }
 
