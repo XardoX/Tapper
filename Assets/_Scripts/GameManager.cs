@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] [ReadOnly] private int _score;
     [SerializeField] [ReadOnly] private int _currentLevel, _currentWave;
     [ReadOnly] public bool isGameActive;
+    private List<Bar> _randomBars;
     private bool _isLevelCleared;
     private void Awake() 
     {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         {
             if(child.TryGetComponent(out Bar bar)) bars.Add(bar);
         }
+        _randomBars = bars;
     }
 
     private void Start() 
@@ -75,8 +77,8 @@ public class GameManager : MonoBehaviour
                     #region randomly chosing bar
                     int currentSpawnChance = currentWave.minBarChance;
                     Bar _chosenBar = null;
-                    bars = bars.OrderBy(i => Random.value).ToList();
-                    foreach(Bar _bar in bars)
+                    _randomBars = _randomBars.OrderBy(i => Random.value).ToList();
+                    foreach(Bar _bar in _randomBars)
                     {
                         if(currentSpawnChance >= Random.Range(0,100))
                         {

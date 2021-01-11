@@ -11,11 +11,11 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     [SerializeField] private float _speed = 10;
     [SerializeField] private float _moveCoolDown = 0.1f;
     [SerializeField] private Vector2 _bounds = Vector2.zero;
-    //[SerializeField] private GameObject _bars = null;
     [SerializeField][ReadOnly] private int currentBar = 0;
-    private Transform[] _barrels;
+    private Transform[] _bars;
     private Rigidbody2D _rb;
     private Beer _heldBeer;
+    private GameManager gm;
 
     private float _moveTime;
 
@@ -35,11 +35,14 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     }
     private void Start() 
     {
-        _barrels = new Transform[GameManager.Instance.bars.Count];
-        for(int i = 0; i < _barrels.Length; i++)
+        gm = GameManager.Instance;
+        _bars = new Transform[GameManager.Instance.bars.Count];
+        for(int i = 0; i < _bars.Length; i++)
         {
-            _barrels.SetValue(GameManager.Instance.bars[i].playerPoint, i);
+            _bars.SetValue(gm.bars[i].playerPoint, i);
         }
+        SetBounds();
+        
     }
 
     private void OnDisable()
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
         if(context.performed && _heldBeer != null)
         {
+            _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
             _heldBeer.ThrowBeer(Vector2.left);
             _heldBeer = null;
         }
@@ -115,8 +119,8 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         currentBar += moveInput;
         if(currentBar < 0)
         {
-            currentBar = _barrels.Length -1;
-        } else if(currentBar >= _barrels.Length)
+            currentBar = _bars.Length -1;
+        } else if(currentBar >= _bars.Length)
         {
             currentBar = 0;
         }
@@ -125,10 +129,14 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             _heldBeer.gameObject.SetActive(false);
             _heldBeer = null;
         }
-        _bounds.y = _barrels[currentBar].position.x;
-        transform.position = new Vector3(_bounds.y, _barrels[currentBar].position.y, transform.position.z);
+        SetBounds();
+        transform.position = _bars[currentBar].position;
     }
 
+    private void SetBounds()
+    {
+        _bounds = new Vector2 (GameManager.Instance.bars[currentBar].entrancePoint.position.x, _bars[currentBar].position.x);
+    }
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag(Tags.emptyBeer))

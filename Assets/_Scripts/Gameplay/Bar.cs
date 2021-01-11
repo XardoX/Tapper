@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Bar : MonoBehaviour
 {
-    public Transform customerSpawnPoint;
     public Transform playerPoint;
+    public Transform customerSpawnPoint;
+    public Transform beerSpawnPoint;
+    public Transform entrancePoint;
 
     private void OnTriggerExit2D(Collider2D other) 
     {
