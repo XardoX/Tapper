@@ -15,22 +15,22 @@ MonoBehaviour:
   customerTypes:
   - name: Easy
     thirst: 1
-    drinkDuration: 1
-    waitDuration: 0.5
+    drinkDuration: 2
+    waitDuration: 1.5
     moveSpeed: 1
-    moveDistance: 1
+    moveDistance: 3
   - name: Medium
     thirst: 2
-    drinkDuration: 1
-    waitDuration: 0.5
+    drinkDuration: 2
+    waitDuration: 1.5
     moveSpeed: 1
-    moveDistance: 1
+    moveDistance: 3
   - name: Hard
     thirst: 3
-    drinkDuration: 1
-    waitDuration: 0.5
+    drinkDuration: 2
+    waitDuration: 1.5
     moveSpeed: 1
-    moveDistance: 1
+    moveDistance: 3
   levels:
   - name: Cowboy Bar
     timeBetweenWave: 10
@@ -42,8 +42,8 @@ MonoBehaviour:
       maxBarChance: 70
       chanceIncrease: 5
       spawnLimit: 4
-      spawnDuration: 10
-      breakDuration: 3
+      spawnDuration: 5
+      breakDuration: 5
       customersTypes:
       - name: Easy Customer
         chanceForSpawn: 50

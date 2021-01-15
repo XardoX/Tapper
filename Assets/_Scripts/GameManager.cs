@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
                         if(_chosenBar == null) Debug.Log("_chosenbar null");
                         if(_customerType == null) Debug.Log("_customerType null");
                     }
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(2f);
                     #endregion
                 } 
                 yield return new WaitForSeconds(currentWave.breakDuration);
@@ -177,4 +177,12 @@ public class GameManager : MonoBehaviour
         UIController.Instance.UpdateScore(_score);
     }
 
+    public void DistractCustomers()
+    {
+        AddPoints(1500);
+        foreach(Customer c in customers)
+        {
+            c.WatchLadies();
+        }
+    }
 }

@@ -12,14 +12,14 @@ public class Customer : MonoBehaviour
     private int _beersToDrink = 1;
     [ReadOnly]
     public Bar currentBar;
-    [HideInInspector] public bool _moving = true;
+    [ReadOnly] [SerializeField]private bool _moving = true;
     private Animator _anim;
     private Beer _beerCurrent = null;
-    private Transform _beerParent = null;
     private float _time;
     private float _nextXPosition;
 
     private bool _canCatch;
+    private bool _distacted = false;
 
 
     private void Awake() 
@@ -47,6 +47,10 @@ public class Customer : MonoBehaviour
     }
     void Update()
     {
+        if(_distacted)
+        {
+            return;
+        }
         if(_moving)
         {
             if (_beersToDrink > 0)
@@ -95,26 +99,24 @@ public class Customer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Beer") || _beerCurrent != null || !_canCatch)
+        if(other.CompareTag("Beer") && _beerCurrent == null && _canCatch)
         {
-            return;
-        }
-        Beer _beer = other.GetComponent<Beer>();
-        if (_beer.isFull)
-        {
-            _beerCurrent = _beer;
-            _moving = false;
-            _beerCurrent.StopBeer();
-            _beerParent = ObjectPooler.Instance.objectsToPool[0].objectsParent.transform;
-            _beerCurrent.transform.parent = this.transform;
-            gameObject.tag = "Drunk Customer";
-            if (_beersToDrink == 1)
+            Beer _beer = other.GetComponent<Beer>();
+            if (_beer.isFull)
             {
-                _anim.SetTrigger("Drinking");
-            }
-            else if (_beersToDrink > 1)
-            {
+                _beerCurrent = _beer;
+                _moving = false;
+                _beerCurrent.StopBeer();
+                _beerCurrent.transform.parent = this.transform;
+                gameObject.tag = "Drunk Customer";
+                if (_beersToDrink == 1)
+                {
+                    _anim.SetTrigger("Drinking");
+                }
+                else if (_beersToDrink > 1)
+                {
 
+                }
             }
         }
     }
@@ -129,7 +131,7 @@ public class Customer : MonoBehaviour
         _beersToDrink -= 1;
         if (_beersToDrink > 0) gameObject.tag = "Customer";
         _moving = true;
-        _beerCurrent.transform.parent = _beerParent;
+        _beerCurrent.transform.parent = ObjectPooler.Instance.objectsToPool[0].objectsParent.transform;
         _beerCurrent.SetBeerStatus(false);
         _beerCurrent.ThrowBeer(Vector2.right);
         _beerCurrent = null;
@@ -139,8 +141,18 @@ public class Customer : MonoBehaviour
 
     public void WatchLadies()
     {
+        if(_beersToDrink <= 0 || _beerCurrent != null || !_canCatch)
+        {
+            return;
+        }
         _moving = false;
+        _distacted = true;
         _anim.SetTrigger("Watch");
+    }
+    public void EndWatching()
+    {
+        _moving = true;
+        _distacted = false;
     }
 
     [Button]

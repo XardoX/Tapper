@@ -79,6 +79,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if(context.started)
         {
+            transform.position = _bars[currentBar].position;
            _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
            _heldBeer.transform.position = _beerSpawn.position;
            _heldBeer.gameObject.SetActive(true);
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         {
             _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
             _heldBeer.ThrowBeer(Vector2.left);
+            _heldBeer.catched = false;
             _heldBeer = null;
         }
     }
@@ -151,7 +153,8 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         }
         else if(other.CompareTag(Tags.tip))
         {
-
+            GameManager.Instance.DistractCustomers();
+            Destroy(other.gameObject);
         }
     }
 }
