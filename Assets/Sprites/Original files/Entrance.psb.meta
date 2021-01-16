@@ -204,7 +204,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
+      x: 58
       y: 4
       width: 28
       height: 41
@@ -218,7 +218,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 38, y: -31}
+    uvTransform: {x: 39, y: -31}
   - name: Door 1
     originalName: 
     pivot: {x: 1, y: 0}
@@ -226,7 +226,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
+      x: 58
       y: 53
       width: 28
       height: 40
@@ -240,7 +240,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 54, y: -8}
+    uvTransform: {x: 55, y: -8}
   - name: frame 1
     originalName: 
     pivot: {x: 1, y: 0}
@@ -248,7 +248,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 93
+      x: 94
       y: 4
       width: 3
       height: 52
@@ -262,7 +262,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 64, y: -59}
+    uvTransform: {x: 65, y: -59}
   - name: frame 0
     originalName: 
     pivot: {x: 1, y: 0}
@@ -272,8 +272,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 20
-      height: 92
+      width: 21
+      height: 99
     spriteID: 5c30b9e95104c37498c50a3a3254f3a6
     internalID: 0
     spriteBone: []
@@ -292,7 +292,7 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 32
+      x: 33
       y: 4
       width: 17
       height: 87
@@ -306,7 +306,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 3, y: -24}
+    uvTransform: {x: 4, y: -24}
   platformSettings:
   - name: Default
     overridden: 1
@@ -378,21 +378,21 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 9ddc14ccac323c044abde7595250deb5
     layerID: 2
-    mosaicPosition: {x: 57, y: 4}
+    mosaicPosition: {x: 58, y: 4}
   - name: Door 1
     spriteName: Door 1
     isGroup: 0
     parentIndex: -1
     spriteID: 0c0bc9bb899ebd947a46b6963ea559db
     layerID: 14
-    mosaicPosition: {x: 57, y: 53}
+    mosaicPosition: {x: 58, y: 53}
   - name: frame 1
     spriteName: frame 1
     isGroup: 0
     parentIndex: -1
     spriteID: a7a6654b2f9fac44b88aa263d10d5a1e
     layerID: 9
-    mosaicPosition: {x: 93, y: 4}
+    mosaicPosition: {x: 94, y: 4}
   - name: frame 0
     spriteName: frame 0
     isGroup: 0
@@ -406,7 +406,7 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 222f70fdbc0429c42b09ca5480b0433f
     layerID: 7
-    mosaicPosition: {x: 32, y: 4}
+    mosaicPosition: {x: 33, y: 4}
   characterData:
     bones: []
     parts: []

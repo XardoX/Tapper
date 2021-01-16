@@ -26,7 +26,7 @@ public class Customer : MonoBehaviour
     {
         
     }
-    void Start()
+    private void Start()
     {
         if(customerIndex > GameManager.Instance.settings.customerTypes.Length)
         {
@@ -45,7 +45,7 @@ public class Customer : MonoBehaviour
         _anim = GetComponent<Animator>();
         _time = Time.time;
     }
-    void Update()
+    private void Update()
     {
         if(_distacted)
         {
@@ -55,10 +55,23 @@ public class Customer : MonoBehaviour
         {
             if (_beersToDrink > 0)
             {
-                if (transform.position.x <= _nextXPosition)//moving towards player
+                if (transform.position.x < _nextXPosition)//moving towards player
                 {
-                    transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f)); 
-                }else if(_time < customerSettings.waitDuration)//waits
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, Vector2.right, 1.6f);
+                    if(hit.collider != null)
+                    {
+                        GameObject customer = hit.collider.gameObject;
+                        if(!customer.CompareTag(Tags.customer) || customer == this.gameObject)
+                        {
+                            transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
+                        }
+                    } 
+                    else
+                    {
+                        transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
+                    }
+                }
+                else if(_time < customerSettings.waitDuration)//waits
                 {
                     _time += Time.deltaTime; 
                 } else //setting next position
@@ -70,13 +83,13 @@ public class Customer : MonoBehaviour
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
                 _canCatch = false;
-                gameObject.tag = "Drunk Customer";
+                gameObject.tag = Tags.drunkCustomer;
             }
         } else if (_beersToDrink > 1) // goes back a little bit and drinks
         {
-            gameObject.tag = "Drunk Customer";
+            gameObject.tag = Tags.drunkCustomer;
             float _backingPos = _nextXPosition - customerSettings.moveDistance * 3f;
-            if(_backingPos < 7.5f) _backingPos = 7.5f;
+            if(_backingPos < currentBar.transform.position.x +5.0f) _backingPos = currentBar.transform.position.x +5.0f;
             if(transform.position.x > _backingPos)
             {
                 transform.Translate(new Vector3(-customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
@@ -86,10 +99,14 @@ public class Customer : MonoBehaviour
             }
         }
     }
+
+    private void FixedUpdate() 
+    {
+    }
     private void OnEnable() 
     {
         _nextXPosition = this.transform.position.x + customerSettings.moveDistance;
-        gameObject.tag = "Customer";
+        gameObject.tag = Tags.customer;
         _canCatch = true;
         UpdateProperties();
     }
@@ -99,7 +116,7 @@ public class Customer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Beer") && _beerCurrent == null && _canCatch)
+        if(other.CompareTag(Tags.beer) && _beerCurrent == null && _canCatch)
         {
             Beer _beer = other.GetComponent<Beer>();
             if (_beer.isFull)
@@ -108,7 +125,7 @@ public class Customer : MonoBehaviour
                 _moving = false;
                 _beerCurrent.StopBeer();
                 _beerCurrent.transform.parent = this.transform;
-                gameObject.tag = "Drunk Customer";
+                gameObject.tag = Tags.drunkCustomer;
                 if (_beersToDrink == 1)
                 {
                     _anim.SetTrigger("Drinking");
