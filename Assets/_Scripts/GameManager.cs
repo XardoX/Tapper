@@ -7,15 +7,24 @@ public class GameManager : MonoBehaviour
 {
     public Settings settings;
     public GameObject barsParent;
-    [ReadOnly] public List<Bar> bars;
-    [ReadOnly] public List<Customer> customers;
+    [ReadOnly] [BoxGroup("Stats")]
+    public List<Bar> bars;
+    [ReadOnly] [BoxGroup("Stats")]
+    public List<Customer> customers;
     
     public static GameManager Instance;
 
-    [ReadOnly] public int playerLives = 3;
-    [SerializeField] [ReadOnly] private int _score;
-    [SerializeField] [ReadOnly] private int _currentLevel, _currentWave;
-    [ReadOnly] public bool isGameActive;
+    [ReadOnly] [BoxGroup("Stats")]
+    public int playerLives = 3;
+    [SerializeField] [ReadOnly] [BoxGroup("Stats")]
+    private int _score;
+    [SerializeField] [ReadOnly] [BoxGroup("Stats")]
+    private int _currentLevel, _currentWave;
+    [ReadOnly] [BoxGroup("Stats")]
+    public bool isGameActive;
+
+    [SerializeField][BoxGroup("Other")]
+    private GameObject _tipPrefab = null;
     private List<Bar> _randomBars;
     private bool _isLevelCleared;
     private void Awake() 
@@ -168,7 +177,16 @@ public class GameManager : MonoBehaviour
     {
         playerLives--;
         UIController.Instance.UpdateHearts(playerLives);
-        ResetLevel();
+        if(playerLives <= 0)
+        {
+            StopAllCoroutines();
+            isGameActive = false;
+            Time.timeScale = 0.0f;
+            UIController.Instance.ShowEndScreen(_score);
+        } else 
+        {
+            ResetLevel();
+        }
     }
 
     public void AddPoints(int value)
@@ -184,5 +202,10 @@ public class GameManager : MonoBehaviour
         {
             c.WatchLadies();
         }
+    }
+
+    public void SpawnTip(Vector3 spawnPos)
+    {
+        Instantiate(_tipPrefab, spawnPos, Quaternion.identity);
     }
 }

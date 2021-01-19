@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText = null;
+    [SerializeField] private GameObject _endWindow = null;
+    [SerializeField] private TextMeshProUGUI _endScoreText = null;
     [SerializeField] private GameObject _heartsParent = null;
     [SerializeField][ReadOnly] private List<GameObject> _Hearts = null;
 
@@ -47,5 +50,15 @@ public class UIController : MonoBehaviour
         {
             _scoreText.text = "0" + newScore.ToString();
         }else _scoreText.text = newScore.ToString();
+    }
+
+    public void ShowEndScreen(int score) 
+    {
+        _endWindow.SetActive(true);
+        _endScoreText.text = score.ToString();
+    }
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

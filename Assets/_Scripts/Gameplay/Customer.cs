@@ -147,6 +147,14 @@ public class Customer : MonoBehaviour
         _anim.ResetTrigger("Drinking");
         _beersToDrink -= 1;
         if (_beersToDrink > 0) gameObject.tag = "Customer";
+        if(_beersToDrink <= 0)
+        {
+            if(Random.Range(0,100) <10)
+            {
+                Vector3 spawnPos = new Vector3(transform.position.x, currentBar.beerSpawnPoint.position.y + 0.03f, transform.position.z);
+                GameManager.Instance.SpawnTip(spawnPos);
+            }
+        }
         _moving = true;
         _beerCurrent.transform.parent = ObjectPooler.Instance.objectsToPool[0].objectsParent.transform;
         _beerCurrent.SetBeerStatus(false);

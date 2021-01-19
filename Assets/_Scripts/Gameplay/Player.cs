@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     [SerializeField][ReadOnly] private int currentBar = 0;
     private Transform[] _bars;
     private Rigidbody2D _rb;
+    private SpriteRenderer _renderer;
     private Beer _heldBeer;
     private GameManager gm;
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     private void Awake() 
     {
         _rb = this.GetComponent<Rigidbody2D>();
+        _renderer = this.GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
@@ -80,11 +82,12 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         if(context.started)
         {
             transform.position = _bars[currentBar].position;
-           _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
-           _heldBeer.transform.position = _beerSpawn.position;
-           _heldBeer.gameObject.SetActive(true);
-           _heldBeer.SetBeerStatus(true);
-           _heldBeer.catched = true;
+            _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
+            _heldBeer.transform.position = _beerSpawn.position;
+            _heldBeer.gameObject.SetActive(true);
+            _heldBeer.SetBeerStatus(true);
+            _heldBeer.catched = true;
+            _renderer.flipX = true;
         }
 
         if(context.performed && _heldBeer != null)
@@ -92,7 +95,9 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
             _heldBeer.ThrowBeer(Vector2.left);
             _heldBeer.catched = false;
+            _renderer.flipX = false;
             _heldBeer = null;
+            
         }
     }
 
