@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Medium Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 3373421567161542793, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3373421567161542804, guid: ade3bc66b3d44a54d84d74639efcdc59,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -142,6 +147,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SpriteTilingProperty.border.w
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.055937767
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.7361817
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 1.472031
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962699595548345047, guid: ade3bc66b3d44a54d84d74639efcdc59,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.9359381
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ade3bc66b3d44a54d84d74639efcdc59, type: 3}

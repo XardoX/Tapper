@@ -14,6 +14,7 @@ public class Customer : MonoBehaviour
     public Bar currentBar;
     [ReadOnly] [SerializeField]private bool _moving = true;
     private Animator _anim;
+    private Collider2D _coll;
     private Beer _beerCurrent = null;
     private float _time;
     private float _nextXPosition;
@@ -43,6 +44,7 @@ public class Customer : MonoBehaviour
         }
         _moving = true;
         _anim = GetComponent<Animator>();
+        _coll = GetComponent<Collider2D>();
         _time = Time.time;
     }
     private void Update()
@@ -57,12 +59,16 @@ public class Customer : MonoBehaviour
             {
                 if (transform.position.x < _nextXPosition)//moving towards player
                 {
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, Vector2.right, 1.6f);
+                    Vector3 offset = new Vector3(_coll.bounds.size.x/ 2, 1f,0);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, Vector2.right, 0.3f);
+                    Debug.DrawRay(transform.position + offset, new Vector3(0.3f, 0f, 0f),Color.red);
                     if(hit.collider != null)
                     {
+                        Debug.Log(hit.collider.gameObject.name);
                         GameObject customer = hit.collider.gameObject;
-                        if(!customer.CompareTag(Tags.customer) || customer == this.gameObject)
+                        if(!customer.CompareTag(Tags.customer))
                         {
+                            Debug.Log(hit.collider.gameObject.name);
                             transform.Translate(new Vector3(customerSettings.moveSpeed*Time.deltaTime, 0f, 0f));
                         }
                     } 
