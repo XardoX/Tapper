@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _endWindow = null;
     [SerializeField] private TextMeshProUGUI _endScoreText = null;
     [SerializeField] private GameObject _heartsParent = null;
-    [SerializeField][ReadOnly] private List<GameObject> _Hearts = null;
+    [SerializeField][ReadOnly] private List<GameObject> _hearts = null;
 
 
     public static UIController Instance;
@@ -23,13 +23,13 @@ public class UIController : MonoBehaviour
 
         foreach(Transform child in _heartsParent.transform)
         {
-            _Hearts.Add(child.gameObject);
+            _hearts.Add(child.gameObject);
         }
         _scoreText.text = "0000";
     }
     public void UpdateHearts(int currentLives)
     {
-        foreach(GameObject hearth in _Hearts)
+        foreach(GameObject hearth in _hearts)
         {
             if(currentLives > 0)
             {

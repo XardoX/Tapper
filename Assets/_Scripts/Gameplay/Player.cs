@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     private GameManager gm;
 
     private float _moveTime;
+    private bool _canRun = true;
 
     private void Awake() 
     {
@@ -53,7 +54,10 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     }
     private void Update() 
     {
-        Run();
+        if(_canRun)
+        {
+            Run();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -81,6 +85,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if(context.started)
         {
+            _canRun = false;
             transform.position = _bars[currentBar].position;
             _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
             _heldBeer.transform.position = _beerSpawn.position;
@@ -92,6 +97,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
         if(context.performed && _heldBeer != null)
         {
+            _canRun = true;
             _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
             _heldBeer.ThrowBeer(Vector2.left);
             _heldBeer.catched = false;
@@ -138,6 +144,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         }
         SetBounds();
         transform.position = _bars[currentBar].position;
+        _canRun = true;
     }
 
     private void SetBounds()
