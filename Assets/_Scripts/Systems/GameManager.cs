@@ -191,6 +191,7 @@ public class GameManager : MonoBehaviour
 
     public void AddPoints(int value)
     {
+        AudioManager.Instance.Play("Bonus");
         _score += value;
         UIController.Instance.UpdateScore(_score);
     }

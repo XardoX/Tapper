@@ -144,6 +144,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         }
         SetBounds();
         transform.position = _bars[currentBar].position;
+        AudioManager.Instance.Play("BarChange");
         _canRun = true;
     }
 

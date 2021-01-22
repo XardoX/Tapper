@@ -22,6 +22,7 @@ public class Beer : MonoBehaviour
     private void OnEnable() 
     {
         catched = false;
+        _renderer.sortingOrder = 3;
     }
     private void OnDisable() 
     {
@@ -35,6 +36,7 @@ public class Beer : MonoBehaviour
         {
             _rb.velocity = direction * _beerSpeed;
         } else _rb.velocity = direction * _emptyBeerSpeed;
+        _renderer.sortingOrder = 1;
     }
 
     public void SetBeerStatus(bool _isFull)
