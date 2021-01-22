@@ -85,25 +85,41 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         if(context.started)
         {
+            GameManager.Instance.bars[currentBar].animatonEnded = false;
             _canRun = false;
             transform.position = _bars[currentBar].position;
+            _renderer.flipX = true;
+            GameManager.Instance.bars[currentBar].kegAnim.SetBool("Pouring", true);
             _heldBeer = ObjectPooler.Instance.GetPooledObject(0).GetComponent<Beer>();
             _heldBeer.transform.position = _beerSpawn.position;
+        }
+            
+        if(context.performed && _heldBeer != null)
+        {
+            
             _heldBeer.gameObject.SetActive(true);
             _heldBeer.SetBeerStatus(true);
             _heldBeer.catched = true;
-            _renderer.flipX = true;
-        }
-
-        if(context.performed && _heldBeer != null)
-        {
+            //GameManager.Instance.bars[currentBar].kegAnim.SetBool("Pouring", false);
             _canRun = true;
-            _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
-            _heldBeer.ThrowBeer(Vector2.left);
-            _heldBeer.catched = false;
             _renderer.flipX = false;
-            _heldBeer = null;
-            
+            if(GameManager.Instance.bars[currentBar].animatonEnded)
+            {
+                _heldBeer.transform.position = gm.bars[currentBar].beerSpawnPoint.position;
+                _heldBeer.ThrowBeer(Vector2.left);
+                _heldBeer.catched = false;
+                _heldBeer = null;
+                GameManager.Instance.bars[currentBar].animatonEnded = false;
+            }else 
+            {
+                
+                if(_heldBeer != null)
+                {
+                    _heldBeer.gameObject.SetActive(false);
+                    _heldBeer = null;
+                }
+            }
+            GameManager.Instance.bars[currentBar].kegAnim.SetBool("Pouring", false);
         }
     }
 

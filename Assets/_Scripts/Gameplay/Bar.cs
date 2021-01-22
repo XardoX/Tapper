@@ -8,7 +8,9 @@ public class Bar : MonoBehaviour
     public Transform customerSpawnPoint;
     public Transform beerSpawnPoint;
     public Transform entrancePoint;
+    public Animator kegAnim;
 
+    public bool animatonEnded;
     private void OnTriggerExit2D(Collider2D other) 
     {
         if(GameManager.Instance.isGameActive)
