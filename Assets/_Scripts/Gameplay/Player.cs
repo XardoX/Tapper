@@ -145,6 +145,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     }
     private void ChangeBar(int moveInput)
     {
+        GameManager.Instance.bars[currentBar].kegAnim.SetBool("Pouring", false);
         currentBar += moveInput;
         if(currentBar < 0)
         {

@@ -53,6 +53,11 @@ public class Beer : MonoBehaviour
         }
     }
 
+    public void HideSprite(bool isVisible)
+    {
+        _renderer.enabled = isVisible;
+    }
+
     public void StopBeer()
     {
         _rb.velocity = Vector3.zero;

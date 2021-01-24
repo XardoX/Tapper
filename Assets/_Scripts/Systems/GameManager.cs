@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField][BoxGroup("Other")]
     private GameObject _tipPrefab = null;
+    [SerializeField][BoxGroup("Other")]
+    private Animator _showSignAnim = null;
     private List<Bar> _randomBars;
     private bool _isLevelCleared;
     private void Awake() 
@@ -199,6 +201,7 @@ public class GameManager : MonoBehaviour
     public void DistractCustomers()
     {
         AddPoints(1500);
+        _showSignAnim.SetTrigger("Show");
         foreach(Customer c in customers)
         {
             c.WatchLadies();

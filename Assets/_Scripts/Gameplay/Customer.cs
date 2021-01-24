@@ -102,6 +102,7 @@ public class Customer : MonoBehaviour
             } else 
             {
                 _anim.SetTrigger("Drinking");
+                _beerCurrent.HideSprite(false);
             }
         }
     }
@@ -135,6 +136,7 @@ public class Customer : MonoBehaviour
                 if (_beersToDrink == 1)
                 {
                     _anim.SetTrigger("Drinking");
+                    _beerCurrent.HideSprite(false);
                 }
                 else if (_beersToDrink > 1)
                 {
@@ -151,6 +153,7 @@ public class Customer : MonoBehaviour
             return;
         }
         _anim.ResetTrigger("Drinking");
+        _beerCurrent.HideSprite(true);
         _beersToDrink -= 1;
         if (_beersToDrink > 0) gameObject.tag = "Customer";
         if(_beersToDrink <= 0)
